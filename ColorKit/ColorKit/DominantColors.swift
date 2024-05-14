@@ -151,12 +151,14 @@ extension UIImage {
             let B: UInt8
         }
 
+        let dataLength = CFDataGetLength(cfData)
+        
         for yCoordonate in 0 ..< cgImage.height {
             for xCoordonate in 0 ..< cgImage.width {
                 let index = (cgImage.width * yCoordonate + xCoordonate) * 4
                 
                 // Let's make sure there is enough alpha.
-                guard data[index + 3] > 150 else { continue }
+                guard index + 3 < dataLength, data[index + 3] > 150 else { continue }
                 
                 let pixelColor = RGB(R: data[index + 0], G: data[index + 1], B:  data[index + 2])
                 colorsCountedSet.add(pixelColor)
